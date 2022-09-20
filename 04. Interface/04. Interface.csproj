@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>DB3</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\01. DAL\01. DAL.csproj" />
+    <ProjectReference Include="..\02. DataEntities\02. DataEntities.csproj" />
+    <ProjectReference Include="..\03. BLL\03. BLL.csproj" />
+  </ItemGroup>
+
+</Project>

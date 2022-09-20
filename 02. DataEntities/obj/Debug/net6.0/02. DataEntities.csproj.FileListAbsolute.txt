@@ -1,0 +1,12 @@
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\bin\Debug\net6.0\02. DataEntities.deps.json
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\bin\Debug\net6.0\02. DataEntities.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\bin\Debug\net6.0\02. DataEntities.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.csproj.AssemblyReference.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.AssemblyInfoInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.AssemblyInfo.cs
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.csproj.CoreCompileInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\refint\02. DataEntities.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\02. DataEntities.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\02. DataEntities\obj\Debug\net6.0\ref\02. DataEntities.dll

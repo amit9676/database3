@@ -1,0 +1,17 @@
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\03. BLL.deps.json
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\03. BLL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\03. BLL.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\01. DAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\02. DataEntities.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\01. DAL.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\bin\Debug\net6.0\02. DataEntities.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.csproj.AssemblyReference.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.AssemblyInfoInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.AssemblyInfo.cs
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.csproj.CoreCompileInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.csproj.CopyComplete
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\refint\03. BLL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\03. BLL.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\03. BLL\obj\Debug\net6.0\ref\03. BLL.dll

@@ -70,8 +70,7 @@ namespace DB3
             List<Sale> results = new List<Sale>();
             foreach (Object[] row in all)
             {
-                bool tOrf = (int)row[3] == 1 ? true : false;
-                Sale o = new Sale((int)row[0],(int)row[1], DateTime.Parse(row[2].ToString()), tOrf);
+                Sale o = new Sale((int)row[0],(int)row[1], DateTime.Parse(row[2].ToString()), (bool)row[3]);
                 results.Add(o);
             }
             return results;
@@ -182,7 +181,7 @@ namespace DB3
             return new bool[] { false,false,false};
         }
 
-        public Sale OrderCreate(List<Ingrident> flavors, List<Ingrident> toppings, int totalFlavorsCount, int totalToppingsCount, Ingrident cupType)
+        public Sale OrderCreate(List<Ingrident> flavors, List<Ingrident> toppings, int totalFlavorsCount, int totalToppingsCount, Ingrident cupType, Sale newSale)
         {
             
             //int amountOfTops = toppings.Count;
@@ -196,8 +195,9 @@ namespace DB3
                 flavsAmounts[f.getId()-1]++;
             }
             int cost = costCalculator(cupType, flavors.Count, toppings.Count);
-            Sale s = new Sale(-1, cost, DateTime.Now, true);
-            int s_ID = DB.insertObject(s);
+            Sale s = new Sale(newSale.getID(), cost, newSale.getOrderDate(), true);
+            //int s_ID = DB.insertObject(s);
+            int s_ID = DB.updateSale(s);
             s = DB.getSale(s_ID);
             for (int i = 0; i < flavsAmounts.Length; i++)
             {
@@ -337,6 +337,20 @@ namespace DB3
             {
                 di.Add(key, amount);
             }
+        }
+
+        public int uncompletedSales()
+        {
+            List<Sale> allSales = this.getAllSales();
+            int counter = 0;
+            foreach (Sale sale in allSales)
+            {
+                if(sale.getOrderState() == false)
+                {
+                    counter++;
+                }
+            }
+            return counter;
         }
     }
 }

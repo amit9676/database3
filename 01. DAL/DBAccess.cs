@@ -215,14 +215,13 @@ namespace DB3
             try
             {
                 conn.Open();
-
-                string sql = "UPDATE `Icecream`.`Ingrident` SET Flavor = " + i.getFlavor() +
+                useIceCream();
+                string sql = "UPDATE Ingrident SET Flavor = " + i.getFlavor() +
                     ", IngridentType = " + i.getIngridentType() + " where IngID = " + i.getId();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //cmd.ExecuteNonQuery();
-                int x = returnID(cmd);
-                return x;
+                cmd.ExecuteNonQuery();
+                return i.getId();
             }
             catch
             {
@@ -239,18 +238,19 @@ namespace DB3
             try
             {
                 conn.Open();
+                useIceCream();
                 int tOrf = s.getOrderState() ? 1 : 0;
                 string format = "yyyy-MM-dd HH:mm:ss";
-                string sql = "UPDATE `Icecream`.`Sales` SET Price = " + s.getPrice() +
+                string sql = "UPDATE Sales SET Price = " + s.getPrice() +
                     ", OrderState = " + tOrf + ", OrderDate = '" + s.getOrderDate().ToString(format) +
-                    "' where SaleID = " + s.getID();
+                    "' where SaleID = " + s.getID() + ";";
+
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //cmd.ExecuteNonQuery();
-                int x = returnID(cmd);
-                return x;
+                cmd.ExecuteNonQuery();
+                return s.getID();
             }
-            catch
+            catch (Exception e)
             {
                 return -1;
             }
@@ -266,15 +266,14 @@ namespace DB3
             try
             {
                 conn.Open();
-
-                string sql = "UPDATE `Icecream`.`Sales` SET ID_ing = " + d.getID_ing() +
+                useIceCream();
+                string sql = "UPDATE Dishes SET ID_ing = " + d.getID_ing() +
                     ", ID_sale = " + d.getID_sale() + ", Amount = " + d.getAmount() +
                     " where DishID = " + d.getID();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //cmd.ExecuteNonQuery();
-                int x = returnID(cmd);
-                return x;
+                cmd.ExecuteNonQuery();
+                return d.getID();
             }
             catch
             {
@@ -291,6 +290,7 @@ namespace DB3
             conn.Open();
             try
             {
+                useIceCream();
                 string sql = "Delete from Sales where SaleID = " + id;
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -310,6 +310,7 @@ namespace DB3
             conn.Open();
             try
             {
+                useIceCream();
                 string sql = "Delete from Ingridents where IngID = " + id;
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
@@ -330,6 +331,7 @@ namespace DB3
             try
             {
                 conn.Open();
+                useIceCream();
                 string sql = "Delete from Dishes where DishID = " + id;
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();

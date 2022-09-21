@@ -55,5 +55,11 @@ namespace DB3
             Console.WriteLine("the most favorite topping is " + flav.Keys.ElementAt(1) + " with " + flav.Values.ElementAt(1) + " toppings sold");
             Console.WriteLine("the most favorite cup is " + flav.Keys.ElementAt(2) + " with " + flav.Values.ElementAt(2) + " cups sold");
         }
+
+        public void uncompletedSales()
+        {
+            int ucs = Logic.uncompletedSales();
+            Console.WriteLine("currently there are " + ucs + " uncompleted sales");
+        }
     }
 }

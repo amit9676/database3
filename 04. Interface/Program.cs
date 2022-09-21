@@ -73,7 +73,8 @@ Console.WriteLine("what action you wish to make?");
 Console.WriteLine("1. make an order.");
 Console.WriteLine("2. view a report");
 Console.WriteLine("3. display best seller flavor");
-int oOrr = inputMaker(1, 3, "please enter 1 to 3");
+Console.WriteLine("4. check uncompleted sales");
+int oOrr = inputMaker(1, 4, "please enter 1 to 4");
 ManagerMode m = new ManagerMode(logic);
 if (oOrr == 2)
 {
@@ -84,6 +85,11 @@ if (oOrr == 2)
 else if (oOrr == 3)
 {
     m.bestFlavor();
+    return;
+}
+else if(oOrr == 4)
+{
+    m.uncompletedSales();
     return;
 }
 
@@ -104,9 +110,10 @@ do
     type_of_cup = 0;
     amount_of_ball = 0;
     type_of_Topping = 0;
+    Sale newSale = logic.insertSale(new Sale(-1, 0, DateTime.Now, false));
     flavorSection();
     toppingSection();
-    createOrder();
+    createOrder(newSale);
     Console.WriteLine("\ndo you wanna make another order?  (1=yes, 0=no)");
     doMore = inputMaker(0, 1, "please choose 0 or 1");
 }
@@ -249,13 +256,13 @@ void toppingSection()
 }
 
 
-void createOrder()
+void createOrder(Sale newSale)
 {
     Console.WriteLine("creating order...");
     Sale s;
     try
     {
-        s = logic.OrderCreate(selectedFlavors, selectedToppings, allFlavors.Count, toppings.Count, selectedCup);
+        s = logic.OrderCreate(selectedFlavors, selectedToppings, allFlavors.Count, toppings.Count, selectedCup, newSale);
         Console.WriteLine("order created, your order ID is " + s.getID() + ", the order cost is " + s.getPrice());
         Console.WriteLine("order contains cup: " + logic.typeOfCup(type_of_cup));
         Console.WriteLine("order's flavors: ");

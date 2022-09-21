@@ -41,6 +41,7 @@ if(dataReset == 1)
     initilize();
 
 List<Ingrident> allFlavors = logic.getAllIngridents("flavor");
+List<Ingrident> allCups = logic.getAllIngridents("cup");
 
 
 int inputMaker(int minValue, int maxValue, string specialInputMessage)
@@ -67,11 +68,34 @@ int inputMaker(int minValue, int maxValue, string specialInputMessage)
     while (!trigger);
     return input;
 }
-int type_of_cup = 0;
+
+Console.WriteLine("what action you wish to make?");
+Console.WriteLine("1. make an order.");
+Console.WriteLine("2. view a report");
+Console.WriteLine("3. display best seller flavor");
+int oOrr = inputMaker(1, 3, "please enter 1 to 3");
+ManagerMode m = new ManagerMode(logic);
+if (oOrr == 2)
+{
+    
+    m.dailyReport();
+    return;
+}
+else if (oOrr == 3)
+{
+    m.bestFlavor();
+    return;
+}
+
+
+
+
+    int type_of_cup = 0;
 int amount_of_ball = 0;
 int type_of_Topping = 0;
 List<Ingrident> selectedFlavors = new List<Ingrident>();
 List<Ingrident> selectedToppings = new List<Ingrident>();
+Ingrident selectedCup = null;
 int[] flavors = new int[amount_of_ball];
 List<Ingrident> toppings = logic.getAllIngridents("topping");
 int doMore = 1;
@@ -91,9 +115,14 @@ while (doMore == 1);
 void flavorSection()
 {
     Console.WriteLine("Please select your order");
-    Console.WriteLine("\nselect your cup:\n1 - normal cup\n2 - spacial cup\n3 - box");
-    type_of_cup = inputMaker(1, 3, "please enter valid input");
+    //Console.WriteLine("\nselect your cup:\n1 - normal cup\n2 - spacial cup\n3 - box");
+    for (int i = 0; i < allCups.Count; i++)
+    {
+        Console.WriteLine((i + 1) + " - " + (allCups[i] as Ingrident).getFlavor());
 
+    }
+    type_of_cup = inputMaker(1, 3, "please enter valid input");
+    selectedCup = allCups[type_of_cup - 1];
     Console.WriteLine("\nselect amount of icecream's balls: ");
     int maxBallAmount = type_of_cup == 3 ? (Int32.MaxValue - 1) : 3;
     if (maxBallAmount == 3)
@@ -226,7 +255,7 @@ void createOrder()
     Sale s;
     try
     {
-        s = logic.OrderCreate(selectedFlavors, selectedToppings, allFlavors.Count, toppings.Count, type_of_cup);
+        s = logic.OrderCreate(selectedFlavors, selectedToppings, allFlavors.Count, toppings.Count, selectedCup);
         Console.WriteLine("order created, your order ID is " + s.getID() + ", the order cost is " + s.getPrice());
         Console.WriteLine("order contains cup: " + logic.typeOfCup(type_of_cup));
         Console.WriteLine("order's flavors: ");

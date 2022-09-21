@@ -9,7 +9,6 @@ namespace DB3
 {
     public class DBAccess //:IDAL
     {
-        //static string connStr = "server=localhost\\SQLEXPRESS;user=LAPTOP-VPK63JOS\\Amit";
         static string connStr = "Server=localhost\\SQLEXPRESS;Trusted_Connection=True";
         SqlConnection conn = new SqlConnection(connStr);
         private void useIceCream()
@@ -148,9 +147,6 @@ namespace DB3
 
                 SqlDataReader rdr = cmd.ExecuteReader();
                 rdr.Read();
-                //Console.WriteLine("OS: " + rdr["OrderState"].ToString());
-                //bool tOrf = Int32.Parse(rdr["OrderState"].ToString()) == 1 ? true : false;
-                //Console.WriteLine(tOrf + "--");
                 Sale answer = new Sale(Int32.Parse(rdr["SaleID"].ToString()), Int32.Parse(rdr["Price"].ToString()), DateTime.Parse(rdr["OrderDate"].ToString()), (bool)rdr["OrderState"]);
                 return answer;
             }
@@ -377,5 +373,69 @@ namespace DB3
             finally { conn.Close(); }
             return all;
         }
+
+
+        //managerMode
+        public ArrayList dateQuery(DateTime date)
+        {
+            DateTime d1 = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+            DateTime d2 = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
+            ArrayList result = new ArrayList();
+            conn.Open();
+            try
+            {
+                useIceCream();
+                string format = "yyyy-MM-dd HH:mm:ss";
+                string sql = "select * from Sales where OrderDate >= '" + d1.ToString(format) + "' and OrderDate <= '" + d2.ToString(format) + "';";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Object[] numb = new Object[rdr.FieldCount];
+                    rdr.GetValues(numb);
+                    result.Add(numb);
+                }
+                rdr.Close();
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public ArrayList favoriteIngrident()
+        {
+            ArrayList result = new ArrayList();
+            conn.Open();
+            try
+            {
+                useIceCream();
+                string sql = "select * from Dishes join Ingridents on Ingridents.IngID = Dishes.IngID;";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Object[] numb = new Object[rdr.FieldCount];
+                    rdr.GetValues(numb);
+                    result.Add(numb);
+                }
+                rdr.Close();
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using MySqlX.XDevAPI.Common;
+using System.Collections;
+using System.Diagnostics.Metrics;
 
 namespace DB3
 {
@@ -25,7 +27,9 @@ namespace DB3
 
             string[] toppings = { "maple", "hot chocolate", "peanuts" };
 
-            foreach(string s in flavors)
+            string[] cups = { "normal cup", "special cup", "box" };
+
+            foreach (string s in flavors)
             {
                 Ingrident i = new Ingrident(-1,s, "flavor");
                 DB.insertObject(i);
@@ -34,6 +38,12 @@ namespace DB3
             foreach (string s in toppings)
             {
                 Ingrident i = new Ingrident(-1,s, "topping");
+                DB.insertObject(i);
+            }
+
+            foreach (string s in cups)
+            {
+                Ingrident i = new Ingrident(-1, s, "cup");
                 DB.insertObject(i);
             }
         }
@@ -172,7 +182,7 @@ namespace DB3
             return new bool[] { false,false,false};
         }
 
-        public Sale OrderCreate(List<Ingrident> flavors, List<Ingrident> toppings, int totalFlavorsCount, int totalToppingsCount, int cupType)
+        public Sale OrderCreate(List<Ingrident> flavors, List<Ingrident> toppings, int totalFlavorsCount, int totalToppingsCount, Ingrident cupType)
         {
             
             //int amountOfTops = toppings.Count;
@@ -196,10 +206,11 @@ namespace DB3
                     DB.insertObject(new Dish(-1, i + 1, s_ID, flavsAmounts[i]));
                 }
             }
+            DB.insertObject(new Dish(-1, cupType.getId(), s_ID, 1));
             return s;
         }
 
-        private int costCalculator(int cupType, int amountOfBalls, int amountOfToppings)
+        private int costCalculator(Ingrident cupType, int amountOfBalls, int amountOfToppings)
         {
             int cost = 0;
             if(amountOfBalls  == 1)
@@ -210,11 +221,11 @@ namespace DB3
             {
                 cost = amountOfBalls * 6;
             }
-            if(cupType == 2)
+            if(cupType.getFlavor() == "special cup")
             {
                 cost += 2;
             }
-            else if(cupType == 3)
+            else if(cupType.getFlavor() == "box")
             {
                 cost += 5;
             }
@@ -235,6 +246,96 @@ namespace DB3
             else
             {
                 return "box";
+            }
+        }
+
+
+        //managerMode
+        public int[] dailyData(DateTime input)
+        {
+            ArrayList data = DB.dateQuery(input);
+            int totalSum = 0;
+            int counter = 0;
+            int average = 0;
+
+            List<Sale> results = new List<Sale>();
+            foreach (Object[] row in data)
+            {
+                counter++;
+                totalSum += (int)row[1];
+            }
+            if (counter == 0)
+                return new int[] { 0, 0, 0 };
+            average = totalSum / counter;
+            return new int[] {totalSum,counter,average};
+        }
+
+        public Dictionary<string,int> favoriteIngrident()
+        {
+            ArrayList data = DB.favoriteIngrident();
+            Dictionary<string, int> flavors = new Dictionary<string, int>();
+            Dictionary<string, int> toppings = new Dictionary<string, int>();
+            Dictionary<string, int> cups = new Dictionary<string, int>();
+            string[] bestDishes = new string[] { "none", "none", "none" };
+            int[] bestAmounts = new int[3];
+
+            foreach (Object[] row in data)
+            {
+                if(row[6].ToString() == "flavor")
+                {
+                    favoriteIngridentAid(flavors, row[5].ToString(), (int)row[3]);
+                }
+                else if (row[6].ToString() == "topping")
+                {
+                    favoriteIngridentAid(toppings, row[5].ToString(), (int)row[3]);
+                }
+                else if (row[6].ToString() == "cup")
+                {
+                    favoriteIngridentAid(cups, row[5].ToString(), (int)row[3]);
+                }
+
+
+            }
+            foreach (KeyValuePair<string, int> entry in flavors)
+            {
+                if(entry.Value > bestAmounts[0])
+                {
+                    bestAmounts[0] = entry.Value;
+                    bestDishes[0] = entry.Key;
+                }
+            }
+            foreach (KeyValuePair<string, int> entry in toppings)
+            {
+                if (entry.Value > bestAmounts[1])
+                {
+                    bestAmounts[1] = entry.Value;
+                    bestDishes[1] = entry.Key;
+                }
+            }
+            foreach (KeyValuePair<string, int> entry in cups)
+            {
+                if (entry.Value > bestAmounts[2])
+                {
+                    bestAmounts[2] = entry.Value;
+                    bestDishes[2] = entry.Key;
+                }
+            }
+            Dictionary<string, int> res = new Dictionary<string, int>();
+            res.Add(bestDishes[0], bestAmounts[0]);
+            res.Add(bestDishes[1], bestAmounts[1]);
+            res.Add(bestDishes[2], bestAmounts[2]);
+            return res;
+        }
+
+        private void favoriteIngridentAid(Dictionary<string, int> di, string key, int amount)
+        {
+            if (di.ContainsKey(key))
+            {
+                di[key] += amount;
+            }
+            else
+            {
+                di.Add(key, amount);
             }
         }
     }

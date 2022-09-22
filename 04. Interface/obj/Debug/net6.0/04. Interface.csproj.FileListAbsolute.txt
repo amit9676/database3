@@ -45,3 +45,21 @@ C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\
 C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
 C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\DnsClient.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\SharpCompress.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\linux\native\libsnappy64.so
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\linux\native\libzstd.so
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\osx\native\libsnappy64.dylib
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\osx\native\libzstd.dylib
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win\native\libzstd.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win\native\snappy32.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win\native\snappy64.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\01B - MongoDAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\04. Interface\bin\Debug\net6.0\01B - MongoDAL.pdb

@@ -2,13 +2,23 @@
 using System.Collections;
 using System.Diagnostics.Metrics;
 
+//logic layer, all the heavy calculations are in here!
 namespace DB3
 {
     public class Logic
     {
-        DBAccess DB = new DBAccess();
+        BaseDB DB;
+        public Logic(bool instruction)
+        {
+            //depend on user's input - choose mongoDB or SQL
+            if (instruction)
+                DB = new DBAccess();
+            else
+                DB = new MongoDBAccess();
+        }
         public bool createTables()
         {
+            //choose if to create (or re-create) the database
             try
             {
                 if (!DB.createTables())
@@ -50,42 +60,17 @@ namespace DB3
 
         public List<Ingrident> getAllIngridents(string type)
         {
-            ArrayList all = DB.readAll("Ingridents");
-            List<Ingrident> results = new List<Ingrident>();
-            foreach (Object[] row in all)
-            {
-                if((string)row[2] == type)
-                {
-                    Ingrident o = new Ingrident((int)row[0], (string)row[1], (string)row[2]);
-                    results.Add(o);
-                }
-                
-            }
-            return results;
+            return DB.readAllIngridents(type);
         }
 
         public List<Sale> getAllSales()
         {
-            ArrayList all = DB.readAll("Sales");
-            List<Sale> results = new List<Sale>();
-            foreach (Object[] row in all)
-            {
-                Sale o = new Sale((int)row[0],(int)row[1], DateTime.Parse(row[2].ToString()), (bool)row[3]);
-                results.Add(o);
-            }
-            return results;
+            return DB.readAllSales();
         }
 
         public List<Dish> getAllDishes()
         {
-            ArrayList all = DB.readAll("Dishes");
-            List<Dish> results = new List<Dish>();
-            foreach (Object[] row in all)
-            {
-                Dish o = new Dish((int)row[0],(int)row[1], (int)row[2], (int)row[3]);
-                results.Add(o);
-            }
-            return results;
+            return DB.readAllDishes();
         }
         
 
@@ -157,6 +142,8 @@ namespace DB3
             return DB.getIngrident(id);
         }
 
+
+        //check the instructed conditions, if to allow toppings, and if so - which toppings.
         public bool[] toppingChecker(int amountOfBalls, int cupType, int[] flavors)
         {
             bool[] results = { false, true, true };
@@ -181,10 +168,10 @@ namespace DB3
             return new bool[] { false,false,false};
         }
 
+        //create the order
         public Sale OrderCreate(List<Ingrident> flavors, List<Ingrident> toppings, int totalFlavorsCount, int totalToppingsCount, Ingrident cupType, Sale newSale)
         {
-            
-            //int amountOfTops = toppings.Count;
+           
             int[] flavsAmounts = new int[totalFlavorsCount + totalToppingsCount];
             foreach(Ingrident f in flavors)
             {
@@ -196,7 +183,6 @@ namespace DB3
             }
             int cost = costCalculator(cupType, flavors.Count, toppings.Count);
             Sale s = new Sale(newSale.getID(), cost, newSale.getOrderDate(), true);
-            //int s_ID = DB.insertObject(s);
             int s_ID = DB.updateSale(s);
             s = DB.getSale(s_ID);
             for (int i = 0; i < flavsAmounts.Length; i++)
@@ -210,6 +196,7 @@ namespace DB3
             return s;
         }
 
+        //caulculate the order's cost according to the instructions
         private int costCalculator(Ingrident cupType, int amountOfBalls, int amountOfToppings)
         {
             int cost = 0;
@@ -253,16 +240,15 @@ namespace DB3
         //managerMode
         public int[] dailyData(DateTime input)
         {
-            ArrayList data = DB.dateQuery(input);
+            List<Sale> data = DB.dateQuery(input);
             int totalSum = 0;
             int counter = 0;
             int average = 0;
 
-            List<Sale> results = new List<Sale>();
-            foreach (Object[] row in data)
+            foreach (Sale item in data)
             {
                 counter++;
-                totalSum += (int)row[1];
+                totalSum += item.getPrice();
             }
             if (counter == 0)
                 return new int[] { 0, 0, 0 };
@@ -273,58 +259,67 @@ namespace DB3
         public Dictionary<string,int> favoriteIngrident()
         {
             ArrayList data = DB.favoriteIngrident();
-            Dictionary<string, int> flavors = new Dictionary<string, int>();
-            Dictionary<string, int> toppings = new Dictionary<string, int>();
-            Dictionary<string, int> cups = new Dictionary<string, int>();
-            string[] bestDishes = new string[] { "none", "none", "none" };
-            int[] bestAmounts = new int[3];
-
-            foreach (Object[] row in data)
+            try
             {
-                if(row[6].ToString() == "flavor")
-                {
-                    favoriteIngridentAid(flavors, row[5].ToString(), (int)row[3]);
-                }
-                else if (row[6].ToString() == "topping")
-                {
-                    favoriteIngridentAid(toppings, row[5].ToString(), (int)row[3]);
-                }
-                else if (row[6].ToString() == "cup")
-                {
-                    favoriteIngridentAid(cups, row[5].ToString(), (int)row[3]);
-                }
 
 
-            }
-            foreach (KeyValuePair<string, int> entry in flavors)
-            {
-                if(entry.Value > bestAmounts[0])
+                Dictionary<string, int> flavors = new Dictionary<string, int>();
+                Dictionary<string, int> toppings = new Dictionary<string, int>();
+                Dictionary<string, int> cups = new Dictionary<string, int>();
+                string[] bestDishes = new string[] { "none", "none", "none" };
+                int[] bestAmounts = new int[3];
+
+                foreach (Object[] row in data)
                 {
-                    bestAmounts[0] = entry.Value;
-                    bestDishes[0] = entry.Key;
+                    if (row[6].ToString() == "flavor")
+                    {
+                        favoriteIngridentAid(flavors, row[5].ToString(), (int)row[3]);
+                    }
+                    else if (row[6].ToString() == "topping")
+                    {
+                        favoriteIngridentAid(toppings, row[5].ToString(), (int)row[3]);
+                    }
+                    else if (row[6].ToString() == "cup")
+                    {
+                        favoriteIngridentAid(cups, row[5].ToString(), (int)row[3]);
+                    }
+
+
                 }
-            }
-            foreach (KeyValuePair<string, int> entry in toppings)
-            {
-                if (entry.Value > bestAmounts[1])
+                foreach (KeyValuePair<string, int> entry in flavors)
                 {
-                    bestAmounts[1] = entry.Value;
-                    bestDishes[1] = entry.Key;
+                    if (entry.Value > bestAmounts[0])
+                    {
+                        bestAmounts[0] = entry.Value;
+                        bestDishes[0] = entry.Key;
+                    }
                 }
-            }
-            foreach (KeyValuePair<string, int> entry in cups)
-            {
-                if (entry.Value > bestAmounts[2])
+                foreach (KeyValuePair<string, int> entry in toppings)
                 {
-                    bestAmounts[2] = entry.Value;
-                    bestDishes[2] = entry.Key;
+                    if (entry.Value > bestAmounts[1])
+                    {
+                        bestAmounts[1] = entry.Value;
+                        bestDishes[1] = entry.Key;
+                    }
                 }
+                foreach (KeyValuePair<string, int> entry in cups)
+                {
+                    if (entry.Value > bestAmounts[2])
+                    {
+                        bestAmounts[2] = entry.Value;
+                        bestDishes[2] = entry.Key;
+                    }
+                }
+                Dictionary<string, int> res = new Dictionary<string, int>();
+                res.Add(bestDishes[0], bestAmounts[0]);
+                res.Add(bestDishes[1], bestAmounts[1]);
+                res.Add(bestDishes[2], bestAmounts[2]);
+                return res;
             }
-            Dictionary<string, int> res = new Dictionary<string, int>();
-            res.Add(bestDishes[0], bestAmounts[0]);
-            res.Add(bestDishes[1], bestAmounts[1]);
-            res.Add(bestDishes[2], bestAmounts[2]);
-            return res;
+            catch
+            {
+                return null;
+            }
         }
 
         private void favoriteIngridentAid(Dictionary<string, int> di, string key, int amount)

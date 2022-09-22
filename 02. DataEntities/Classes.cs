@@ -1,5 +1,6 @@
 ﻿namespace DB3
 {
+    //data transfer objects
     public class Sale
     {
         int SaleID;

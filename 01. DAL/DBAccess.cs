@@ -1,22 +1,24 @@
-﻿//using MySql.Data;
-//using MySql.Data.MySqlClient;
-using MySql.Data.MySqlClient;
+﻿
+
 using System.Collections;
 using System.Data.SqlClient;
-using System.Xml;
-//using DemoDataProtocol;
+
+//Data access layer (SQL)
 namespace DB3
 {
-    public class DBAccess //:IDAL
+    public class DBAccess : BaseDB
     {
         static string connStr = "Server=localhost\\SQLEXPRESS;Trusted_Connection=True";
         SqlConnection conn = new SqlConnection(connStr);
+        
+        //baseCommand
         private void useIceCream()
         {
             string sql = "use Icecream;";
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.ExecuteNonQuery();
         }
+       //incase of addition, we need the added object id!
         private int returnID(SqlCommand cmd)
         {
             object returnObj = cmd.ExecuteScalar();
@@ -346,7 +348,7 @@ namespace DB3
             }
         }
 
-        public ArrayList readAll(string tableName)
+        public List<Sale> readAllSales()
         {
             ArrayList all = new ArrayList();
 
@@ -355,7 +357,7 @@ namespace DB3
                 conn.Open();
 
                 useIceCream();
-                string sql = "SELECT * FROM " + tableName;
+                string sql = "SELECT * FROM Sales";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -366,23 +368,111 @@ namespace DB3
                     all.Add(numb);
                 }
                 rdr.Close();
-                
+
+                List<Sale> results = new List<Sale>();
+                foreach (Object[] row in all)
+                {
+                    Sale o = new Sale((int)row[0], (int)row[1], DateTime.Parse(row[2].ToString()), (bool)row[3]);
+                    results.Add(o);
+                }
+                return results;
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                return null;
             }
             finally { conn.Close(); }
-            return all;
         }
 
+        public List<Dish> readAllDishes()
+        {
+            ArrayList all = new ArrayList();
+
+            try
+            {
+                conn.Open();
+
+                useIceCream();
+                string sql = "SELECT * FROM Dishes";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Object[] numb = new Object[rdr.FieldCount];
+                    rdr.GetValues(numb);
+                    all.Add(numb);
+                }
+                rdr.Close();
+
+                List<Dish> results = new List<Dish>();
+                foreach (Object[] row in all)
+                {
+                    Dish o = new Dish((int)row[0], (int)row[1], (int)row[2], (int)row[3]);
+                    results.Add(o);
+                }
+                return results;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+            finally { conn.Close(); }
+        }
+
+        public List<Ingrident> readAllIngridents(string type)
+        {
+            ArrayList all = new ArrayList();
+
+            try
+            {
+                conn.Open();
+
+                useIceCream();
+                string sql = "SELECT * FROM Ingridents";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Object[] numb = new Object[rdr.FieldCount];
+                    rdr.GetValues(numb);
+                    all.Add(numb);
+                }
+                rdr.Close();
+
+                List<Ingrident> results = new List<Ingrident>();
+                foreach (Object[] row in all)
+                {
+                    if ((string)row[2] == type)
+                    {
+                        Ingrident o = new Ingrident((int)row[0], (string)row[1], (string)row[2]);
+                        results.Add(o);
+                    }
+                }
+                return results;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+            finally { conn.Close(); }
+        }
+
+        
 
         //managerMode
-        public ArrayList dateQuery(DateTime date)
+        public List<Sale> dateQuery(DateTime date)
         {
             DateTime d1 = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
             DateTime d2 = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
-            ArrayList result = new ArrayList();
+            ArrayList all = new ArrayList();
             conn.Open();
             try
             {
@@ -395,9 +485,16 @@ namespace DB3
                 {
                     Object[] numb = new Object[rdr.FieldCount];
                     rdr.GetValues(numb);
-                    result.Add(numb);
+                    all.Add(numb);
                 }
                 rdr.Close();
+
+                List<Sale> result = new List<Sale>();
+                foreach (Object[] row in all)
+                {
+                    Sale o = new Sale((int)row[0], (int)row[1], DateTime.Parse(row[2].ToString()), (bool)row[3]);
+                    result.Add(o);
+                }
                 return result;
             }
             catch

@@ -1,0 +1,15 @@
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.csproj.AssemblyReference.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.AssemblyInfoInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.AssemblyInfo.cs
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.csproj.CoreCompileInputs.cache
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\bin\Debug\net6.0\01B - MongoDAL.deps.json
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\bin\Debug\net6.0\01B - MongoDAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\bin\Debug\net6.0\01B - MongoDAL.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\refint\01B - MongoDAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\ref\01B - MongoDAL.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\bin\Debug\net6.0\02. DataEntities.dll
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\bin\Debug\net6.0\02. DataEntities.pdb
+C:\Users\Amit\Downloads\dbtask3\DBTASK2\01B - MongoDAL\obj\Debug\net6.0\01B - MongoDAL.csproj.CopyComplete

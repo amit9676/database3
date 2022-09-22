@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\01. DAL\01. DAL.csproj" />
+    <ProjectReference Include="..\01B - MongoDAL\01B - MongoDAL.csproj" />
     <ProjectReference Include="..\02. DataEntities\02. DataEntities.csproj" />
     <ProjectReference Include="..\03. BLL\03. BLL.csproj" />
   </ItemGroup>

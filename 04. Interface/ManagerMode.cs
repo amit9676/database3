@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DB3
 {
+    //this class handles the additional data in application layer (question 6b,c,d)
     internal class ManagerMode
     {
         private Logic Logic;
@@ -15,6 +13,7 @@ namespace DB3
             this.Logic = logic;
         }
 
+        //6b
         public void dailyReport()
         {
             Console.WriteLine("enter date in format day/month/year: ");
@@ -26,7 +25,7 @@ namespace DB3
             {
                 try
                 {
-                    date = Console.ReadLine();
+                    date = Console.ReadLine(); //if empty input is entered - check for today!
                     if(date == "")
                     {
                         date = dt.ToString("d/M/yyyy");
@@ -48,6 +47,7 @@ namespace DB3
             Console.WriteLine("average cost for sale: " + result[2]);
         }
 
+        //6d
         public void bestFlavor()
         {
             Dictionary<string, int> flav = Logic.favoriteIngrident();
@@ -56,6 +56,8 @@ namespace DB3
             Console.WriteLine("the most favorite cup is " + flav.Keys.ElementAt(2) + " with " + flav.Values.ElementAt(2) + " cups sold");
         }
 
+
+        //6c
         public void uncompletedSales()
         {
             int ucs = Logic.uncompletedSales();

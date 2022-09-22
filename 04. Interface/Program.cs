@@ -1,14 +1,18 @@
-﻿using System;
-using System.Data;
-using System.Diagnostics;//used for Stopwatch class
+﻿//project was created by Amit Goffer (205541360) and Yehonatan Amosi (209542349)
 
 
-using System.Collections;
+//application layer (icecream selling section)
 using DB3;
-using Org.BouncyCastle.Utilities;
 
-Logic logic = new Logic();
-void initilize()
+
+//determine if to use sql or mongo
+bool relationalOrMongo = false;
+Console.WriteLine("do you wish to use relational SQL Database, or NoSQL mongo Database (1=sql, 2=mongo)");
+relationalOrMongo = inputMaker(1, 2, "please enter 1 or 2") == 1 ? true : false;
+Logic logic = new Logic(relationalOrMongo);
+
+
+void initilize() //let use to choose if to use existing data or reset it
 {
     bool tableFill = false;
     try
@@ -35,15 +39,19 @@ void initilize()
     }
 }
 
+
+//choose if to activate the function above
 Console.WriteLine("do you want to reset database? (1=yes, 0=no)");
 int dataReset = inputMaker(0, 1, "please enter 0 or 1");
 if(dataReset == 1)
     initilize();
 
+//load data from server
 List<Ingrident> allFlavors = logic.getAllIngridents("flavor");
 List<Ingrident> allCups = logic.getAllIngridents("cup");
 
 
+//input handler function, make sure the user chooses what is allowed to him to choose
 int inputMaker(int minValue, int maxValue, string specialInputMessage)
 {
     int input = 0;
@@ -69,6 +77,7 @@ int inputMaker(int minValue, int maxValue, string specialInputMessage)
     return input;
 }
 
+//allow use to choose what he wants to do
 Console.WriteLine("what action you wish to make?");
 Console.WriteLine("1. make an order.");
 Console.WriteLine("2. view a report");
@@ -84,7 +93,14 @@ if (oOrr == 2)
 }
 else if (oOrr == 3)
 {
-    m.bestFlavor();
+    try
+    {
+        m.bestFlavor();
+    }
+    catch
+    {
+        Console.WriteLine("could not obtain data");
+    }
     return;
 }
 else if(oOrr == 4)
@@ -95,8 +111,8 @@ else if(oOrr == 4)
 
 
 
-
-    int type_of_cup = 0;
+//icecream selling section
+int type_of_cup = 0;
 int amount_of_ball = 0;
 int type_of_Topping = 0;
 List<Ingrident> selectedFlavors = new List<Ingrident>();
@@ -122,9 +138,9 @@ while (doMore == 1);
 void flavorSection()
 {
     Console.WriteLine("Please select your order");
-    //Console.WriteLine("\nselect your cup:\n1 - normal cup\n2 - spacial cup\n3 - box");
     for (int i = 0; i < allCups.Count; i++)
     {
+        //display cups from the server
         Console.WriteLine((i + 1) + " - " + (allCups[i] as Ingrident).getFlavor());
 
     }
@@ -146,10 +162,12 @@ void flavorSection()
     Console.WriteLine("our available icecream flavors:");
     for (int i = 0; i < allFlavors.Count; i++)
     {
+        //display flavors from the server
         Console.WriteLine((i + 1) + " - " + (allFlavors[i] as Ingrident).getFlavor());
 
     }
 
+    //accept user flavor choice
     Console.WriteLine();
     for (int i = 0; i < flavors.Length; i++)
     {
@@ -170,6 +188,7 @@ void toppingSection()
     bool[] canTopping = logic.toppingChecker(amount_of_ball, type_of_cup, flavors);
     toppings = logic.getAllIngridents("topping");
 
+    //get toppings from server
     Dictionary<string, bool> myTopping = new Dictionary<string, bool>();
     foreach (Ingrident t in toppings)
     {
@@ -256,14 +275,17 @@ void toppingSection()
 }
 
 
+//create the order, and display all order details (components, price, ect..)
 void createOrder(Sale newSale)
 {
     Console.WriteLine("creating order...");
     Sale s;
     try
     {
+        //question 6A - display order details
         s = logic.OrderCreate(selectedFlavors, selectedToppings, allFlavors.Count, toppings.Count, selectedCup, newSale);
         Console.WriteLine("order created, your order ID is " + s.getID() + ", the order cost is " + s.getPrice());
+        Console.WriteLine("order time: " + s.getOrderDate().ToString("G"));
         Console.WriteLine("order contains cup: " + logic.typeOfCup(type_of_cup));
         Console.WriteLine("order's flavors: ");
         foreach (Ingrident ingr in selectedFlavors)
